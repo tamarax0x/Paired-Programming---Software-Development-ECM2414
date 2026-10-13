@@ -5,15 +5,19 @@ public class Player {
 
     public Player(int i) {
         this.playerID = i;
-        this.hand = new Card[4]
+        this.hand = new Card[4];
     }
 
-    public addCardtoHand(Card card, int i) {
+    public int getID() {
+        return this.playerID;
+    }
+
+    public void addCardtoHand(Card card, int i) {
         this.hand[i] = card;
     }
 
-    public removeCardfromHand(Card card) {
-
+    public int removeCardfromHand(Card card) {
+        return 0;
     }
 
     public boolean winningHand() {
