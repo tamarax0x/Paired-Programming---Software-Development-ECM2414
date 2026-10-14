@@ -1,0 +1,8 @@
+{
+    "debug.javascript.defaultRuntimeExecutable": {
+        "java.jdt.ls.java.home": "C:\\Users\\noahp\\OneDrive\\Desktop\\oracleJdk-27"
+
+        
+        "pwa-node": "node"
+    }
+}
