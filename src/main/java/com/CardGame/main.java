@@ -30,7 +30,7 @@ public class main  {
     public void cardExchange(){
 
     }
-    public void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
+    public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
         Random rand = new Random();
         switch (numberOfPlayers) {
             case 2:
@@ -71,7 +71,7 @@ public class main  {
             default:
                 System.out.println("Invalid number of players");
         }
-        Collections.shuffle(sharedDeck);
+        sharedDeck.shuffle();
         for (int i = 0; i < numberOfPlayers; i++) {
             for (int j = 0; j < 4; j++) {
                 gamePlayers[i].addCardtoHand(sharedDeck.drawCard(), j);

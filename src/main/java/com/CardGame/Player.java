@@ -24,7 +24,7 @@ public class Player {
     public boolean winningHand() {
 
         for (int i = 0; i < 4; i++) {
-            if (!hand[0].getValue() == hand[i].getValue()) 
+            if (hand[0].getValue() != hand[i].getValue()) 
             {
                 return false;
             }
@@ -65,7 +65,7 @@ public class Player {
             
             
         }  
-        hand[rand.next(4)] = null;
+        hand[rand.nextInt(4)] = null;
 
 
     }
