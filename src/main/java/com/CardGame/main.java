@@ -22,7 +22,9 @@ public class main  {
         for (i = 0; i < number; i++) {
             Player player = new Player(i);
             gamePlayers[i] = player;
-            System.out.println(player.getID());
+
+            CardDeck deck = new CardDeck(i);
+            gameDecks[i] = deck;
         }
         initialiseGame(number, sharedDeck, gamePlayers,gameDecks);
     } 
@@ -30,6 +32,7 @@ public class main  {
     public void cardExchange(){
 
     }
+
     public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
         Random rand = new Random();
         switch (numberOfPlayers) {
