@@ -13,12 +13,22 @@ public class Player {
         return this.playerID;
     }
 
+    public void printHand(int playerID) {
+        int[] list = new int[4];
+        int playerNo = playerID + 1;
+
+        for (int i = 0; i < 4; i++) {
+            list[i] = this.hand[i].getValue();
+        }
+        System.out.println("Player " + playerNo + "'s Hand: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3]);
+    }
+
     public void addCardtoHand(Card card, int i) {
         this.hand[i] = card;
     }
 
-    public void  removeCardfromHand(int i) {
-        this.hand[i]= null;
+    public void removeCardfromHand(int i) {
+        this.hand[i] = null;
     }
 
     public boolean winningHand() {
@@ -54,20 +64,14 @@ public class Player {
         return -1;
     }
 
-    public void removeTargetedCard(){
+    public int removeTargetedCard(){
         Random rand = new Random();
         for(int i = 0; i < hand.length; i++){
             if(!targetedDenomination(hand[i])){
-                
                removeCardfromHand(i);    
-               return;
+               return i;
             }
-            
-            
         }  
-        hand[rand.nextInt(4)] = null;
-
-
     }
     
     public boolean targetedDenomination(Card card){

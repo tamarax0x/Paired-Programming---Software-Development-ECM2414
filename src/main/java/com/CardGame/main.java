@@ -4,6 +4,33 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 
+public class cardExchange extends Thread {
+    private Player player;
+    private CardDeck[] decks;
+    private int maxPlayers;
+    private CardDeck drawDeck;
+    private CardDeck discardDeck;
+
+    cardExchange(Player plr, int number) {
+        this.player = plr;
+        this.maxPlayers = number;
+    }
+
+    public void run(CardDeck[] decks) {
+        int ID = player.getID();
+        drawDeck = decks[ID]
+        if (ID + 1 >= maxPlayers) {
+            discardDeck = decks[0]
+        }
+        else {
+            discardDeck = deck[ID + 1]
+        }
+
+        Card drawnCard = drawDeck.drawCard();
+        int freeSpace = removeTargetedCard();
+    }
+}
+
 public class main  {
     
     public static void main(String args[]) {
@@ -28,10 +55,6 @@ public class main  {
         }
         initialiseGame(number, sharedDeck, gamePlayers,gameDecks);
     } 
-    
-    public void cardExchange(){
-
-    }
 
     public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
         Random rand = new Random();
@@ -46,7 +69,6 @@ public class main  {
                     sharedDeck.addCard(new Card(randomNum, 0));
                 }
                 
-
                 break;
             case 3:
                 for (int i = 0; i < 4; i++) {
@@ -80,9 +102,8 @@ public class main  {
                 gamePlayers[i].addCardtoHand(sharedDeck.drawCard(), j);
                 gameDecks[i].addCard(sharedDeck.drawCard());
             }
+
+            gamePlayers[i].printHand(gamePlayers[i].getID());
         }
-
-        
-
     }
 }
