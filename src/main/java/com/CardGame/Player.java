@@ -72,6 +72,7 @@ public class Player {
                 return hand[i];
             }
         }  
+        return null;
     }
     
     public boolean targetedDenomination(Card card){

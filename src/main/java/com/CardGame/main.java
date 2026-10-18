@@ -34,33 +34,33 @@ public class main  {
         Thread[] playerThreads = new Thread[number];
         AtomicBoolean running = new AtomicBoolean(true);
 
-        i = 0;
-        for (int i = 0; i < number; i++) {
-            int threadNumber = i + 1;
+        for (int j = 0; j < number; j++) {
+            Player player = gamePlayers[j];
+            int threadNumber = j + 1;
 
-            playerThreads[i] = new Thread(() -> {
+            int ID = player.getID();
+            CardDeck drawDeck = gameDecks[ID];
+            CardDeck discardDeck;
+            if (ID + 1 >= number) {
+                discardDeck = gameDecks[0];
+            } else {
+                discardDeck = gameDecks[ID + 1];
+            }
+
+            playerThreads[j] = new Thread(() -> {
                 try {
                     startSignal.await();
 
                     while (running.get()) {
-                        player = gamePlayers[i];
+                        
 
                         if (player.winningHand()) {
                             running.set(false);
                             break;          
                         }
 
-                        int ID = player.getID();
-                        CardDeck drawDeck = gameDecks[ID];
-                        if (ID + 1 >= maxPlayers) {
-                            CardDeck discardDeck = gameDecks[0];
-                        }
-                        else {
-                            CardDeck discardDeck = gameDecks[ID + 1];
-                        }
-
                         Card drawnCard = drawDeck.drawCard();
-                        int discardCard = player.findTargetedCard();
+                        Card discardCard = player.findTargetedCard();
                         int emptySlot = discardCard.getHandNo();
                         player.removeCardfromHand(emptySlot);
                         player.addCardtoHand(drawnCard, emptySlot);
@@ -73,8 +73,8 @@ public class main  {
                     Thread.currentThread().interrupt();
                 }});
 
-                playerThreads[i].start();
-            }
+                playerThreads[j].start();
+        };
 
         Thread controller = new Thread(() -> {
             try {
@@ -93,10 +93,11 @@ public class main  {
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-        }});
+            }});
 
         controller.start();
         controller.join();
+
     }
 
     public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
