@@ -2,38 +2,13 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.Collections;
 import java.util.LinkedList;
-
-
-public class cardExchange extends Thread {
-    private Player player;
-    private CardDeck[] decks;
-    private int maxPlayers;
-    private CardDeck drawDeck;
-    private CardDeck discardDeck;
-
-    cardExchange(Player plr, int number) {
-        this.player = plr;
-        this.maxPlayers = number;
-    }
-
-    public void run(CardDeck[] decks) {
-        int ID = player.getID();
-        drawDeck = decks[ID]
-        if (ID + 1 >= maxPlayers) {
-            discardDeck = decks[0]
-        }
-        else {
-            discardDeck = deck[ID + 1]
-        }
-
-        Card drawnCard = drawDeck.drawCard();
-        int freeSpace = removeTargetedCard();
-    }
-}
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class main  {
     
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
+        CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
@@ -53,8 +28,76 @@ public class main  {
             CardDeck deck = new CardDeck(i);
             gameDecks[i] = deck;
         }
+
         initialiseGame(number, sharedDeck, gamePlayers,gameDecks);
-    } 
+
+        Thread[] playerThreads = new Thread[number];
+        AtomicBoolean running = new AtomicBoolean(true);
+
+        i = 0;
+        for (int i = 0; i < number; i++) {
+            int threadNumber = i + 1;
+
+            playerThreads[i] = new Thread(() -> {
+                try {
+                    startSignal.await();
+
+                    while (running.get()) {
+                        player = gamePlayers[i];
+
+                        if (player.winningHand()) {
+                            running.set(false);
+                            break;          
+                        }
+
+                        int ID = player.getID();
+                        CardDeck drawDeck = gameDecks[ID];
+                        if (ID + 1 >= maxPlayers) {
+                            CardDeck discardDeck = gameDecks[0];
+                        }
+                        else {
+                            CardDeck discardDeck = gameDecks[ID + 1];
+                        }
+
+                        Card drawnCard = drawDeck.drawCard();
+                        int discardCard = player.findTargetedCard();
+                        int emptySlot = discardCard.getHandNo();
+                        player.removeCardfromHand(emptySlot);
+                        player.addCardtoHand(drawnCard, emptySlot);
+                        discardDeck.addCard(discardCard);
+
+                        Thread.sleep(200);
+                    }
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }});
+
+                playerThreads[i].start();
+            }
+
+        Thread controller = new Thread(() -> {
+            try {
+                // trigger start and stop
+                startSignal.countDown();
+                Thread.sleep(2000);
+                running.set(false);
+
+                for (Thread playerThread : playerThreads) {
+                    playerThread.interrupt();
+                }
+
+                for (Thread playerThread : playerThreads) {
+                    playerThread.join();
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+        }});
+
+        controller.start();
+        controller.join();
+    }
 
     public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
         Random rand = new Random();

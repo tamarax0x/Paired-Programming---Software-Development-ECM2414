@@ -64,12 +64,12 @@ public class Player {
         return -1;
     }
 
-    public int removeTargetedCard(){
+    public Card findTargetedCard(){
         Random rand = new Random();
         for(int i = 0; i < hand.length; i++){
             if(!targetedDenomination(hand[i])){
-               removeCardfromHand(i);    
-               return i;
+                hand[i].setHandNo(i);
+                return hand[i];
             }
         }  
     }
