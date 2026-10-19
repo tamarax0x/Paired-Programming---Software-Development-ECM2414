@@ -70,10 +70,12 @@ public class main  {
 
                     while (running.get()) {
                         
-
+                        initialHandToFile("player"+(player.getID()+1)+"_output.txt", player);
                         if (player.winningHand()) {
-                            running.set(false);
+                            
 
+                            running.set(false);
+                            
                             break;          
                         }
 
@@ -232,7 +234,19 @@ public class main  {
             }
             sb.append(player.printHand(player.getID()) + "\n");
             writer.write(sb.toString());
+            writer.close();
             
+        } catch (Exception e) {
+            System.out.println("An error occurred while writing to the file: " + fileName);
+            e.printStackTrace();
+        }
+    }
+    public static void initialHandToFile(String fileName, Player player) {
+        try {
+            FileWriter writer = new FileWriter(fileName, true);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Player " + (player.getID() + 1) + "'s initial hand: " + player.printHand() + "\n");
+            writer.write(sb.toString());
         } catch (Exception e) {
             System.out.println("An error occurred while writing to the file: " + fileName);
             e.printStackTrace();
