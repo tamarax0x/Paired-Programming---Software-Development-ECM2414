@@ -21,9 +21,12 @@ public class main  {
 
         int number = players.nextInt();  // Read user input
         System.out.println("There are " + number + " players.");
-        System.out.println("Please enter the name of the pack file");
-        String packFile = players.next();
 
+        Scanner deckName = new Scanner(System.in);
+        System.out.println("Please enter the name of the pack file:");
+
+        String packFile = deckName.nextLine();
+        System.out.println(packFile);
 
         Player[] gamePlayers = new Player[number];
         CardDeck[] gameDecks = new CardDeck[number];
@@ -129,7 +132,7 @@ public class main  {
 
     }
 
-    public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks,string packFile)throws IOException {    
+    public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks, String packFile) throws IOException {    
         Random rand = new Random();
         File player1File = new File("player1_output.txt");
         File player2File = new File("player2_output.txt");

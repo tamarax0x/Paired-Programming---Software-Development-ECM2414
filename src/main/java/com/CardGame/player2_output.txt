@@ -1,65 +1,41 @@
-Player 2's initial hand: Player 2's Hand: 22, 12, 1, 1
-Player 2 draws a 7 from deck 1
-Player 2's Hand: 22, 12, 1, 1
-Player 2 discards a 22 to deck 3
-Player 2's Hand: 7, 12, 1, 1
-Player 2 draws a 2 from deck 1
-Player 2's Hand: 7, 12, 1, 1
-Player 2 discards a 7 to deck 3
-Player 2's Hand: 2, 12, 1, 1
-Player 2 draws a 13 from deck 1
-Player 2's Hand: 2, 12, 1, 1
-Player 2 discards a 12 to deck 3
-Player 2's Hand: 2, 13, 1, 1
-Player 2 draws a 5 from deck 1
-Player 2's Hand: 2, 13, 1, 1
-Player 2 discards a 13 to deck 3
-Player 2's Hand: 2, 5, 1, 1
-Player 2 draws a 19 from deck 2
-Player 2's Hand: 2, 5, 1, 1
-Player 2 discards a 5 to deck 3
-Player 2's Hand: 2, 19, 1, 1
-Player 2 draws a 3 from deck 2
-Player 2's Hand: 2, 19, 1, 1
-Player 2 discards a 19 to deck 3
-Player 2's Hand: 2, 3, 1, 1
-Player 2 draws a 5 from deck 2
-Player 2's Hand: 2, 3, 1, 1
-Player 2 discards a 3 to deck 3
-Player 2's Hand: 2, 5, 1, 1
-Player 2 draws a 14 from deck 2
-Player 2's Hand: 2, 5, 1, 1
-Player 2 discards a 5 to deck 3
-Player 2's Hand: 2, 14, 1, 1
-Player 2 draws a 17 from deck 2
-Player 2's Hand: 2, 14, 1, 1
-Player 2 discards a 14 to deck 3
-Player 2's Hand: 2, 17, 1, 1
-Player 2 draws a 2 from deck 2
-Player 2's Hand: 2, 17, 1, 1
-Player 2 discards a 17 to deck 3
-Player 2's Hand: 2, 2, 1, 1
-Player 2 draws a 4 from deck 2
-Player 2's Hand: 2, 2, 1, 1
+Player 2's initial hand: Player 2's Hand: 2, 1, 1, 4
+Player 2 draws a 10 from deck 1
+Player 2's Hand: 2, 1, 1, 4
 Player 2 discards a 1 to deck 3
-Player 2's Hand: 2, 2, 4, 1
-Player 2 draws a 3 from deck 2
-Player 2's Hand: 2, 2, 4, 1
+Player 2's Hand: 2, 10, 1, 4
+Player 2 draws a 4 from deck 1
+Player 2's Hand: 2, 10, 1, 4
+Player 2 discards a 10 to deck 3
+Player 2's Hand: 2, 4, 1, 4
+Player 2 draws a 3 from deck 1
+Player 2's Hand: 2, 4, 1, 4
 Player 2 discards a 4 to deck 3
-Player 2's Hand: 2, 2, 3, 1
-Player 2 draws a 2 from deck 2
-Player 2's Hand: 2, 2, 3, 1
+Player 2's Hand: 2, 3, 1, 4
+Player 2 draws a 17 from deck 1
+Player 2's Hand: 2, 3, 1, 4
 Player 2 discards a 3 to deck 3
-Player 2's Hand: 2, 2, 2, 1
-Player 2 draws a 11 from deck 2
-Player 2's Hand: 2, 2, 2, 1
+Player 2's Hand: 2, 17, 1, 4
+Player 2 draws a 4 from deck 2
+Player 2's Hand: 2, 17, 1, 4
+Player 2 discards a 17 to deck 3
+Player 2's Hand: 2, 4, 1, 4
+Player 2 draws a 14 from deck 2
+Player 2's Hand: 2, 4, 1, 4
+Player 2 discards a 4 to deck 3
+Player 2's Hand: 2, 14, 1, 4
+Player 2 draws a 7 from deck 2
+Player 2's Hand: 2, 14, 1, 4
+Player 2 discards a 14 to deck 3
+Player 2's Hand: 2, 7, 1, 4
+Player 2 draws a 7 from deck 2
+Player 2's Hand: 2, 7, 1, 4
+Player 2 discards a 7 to deck 3
+Player 2's Hand: 2, 7, 1, 4
+Player 2 draws a 2 from deck 2
+Player 2's Hand: 2, 7, 1, 4
+Player 2 discards a 7 to deck 3
+Player 2's Hand: 2, 2, 1, 4
+Player 2 draws a 5 from deck 2
+Player 2's Hand: 2, 2, 1, 4
 Player 2 discards a 1 to deck 3
-Player 2's Hand: 2, 2, 2, 11
-Player 2 draws a 3 from deck 2
-Player 2's Hand: 2, 2, 2, 11
-Player 2 discards a 11 to deck 3
-Player 2's Hand: 2, 2, 2, 3
-Player 2 draws a 2 from deck 2
-Player 2's Hand: 2, 2, 2, 3
-Player 2 discards a 3 to deck 3
-Player 2's Hand: 2, 2, 2, 2
+Player 2's Hand: 2, 2, 5, 4
