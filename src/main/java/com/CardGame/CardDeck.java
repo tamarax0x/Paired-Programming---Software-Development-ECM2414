@@ -12,6 +12,10 @@ public class CardDeck {
         this.deckID = i;
     }
 
+    public int getID() {
+        return this.deckID;
+    }
+
     public Card drawCard() {
         Card top = Cards.peek();
         Cards.remove(top);

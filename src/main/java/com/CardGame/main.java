@@ -72,12 +72,15 @@ public class main  {
                         
 
                         if (player.winningHand()) {
+                            
                             running.set(false);
 
                             break;          
                         }
 
                         Card drawnCard = drawDeck.drawCard();
+                        drawnCard.setDeckNo(-1);
+                        drawnCard.setHandNo(player.getID());
                         
                         writeToFile("player"+(player.getID()+1)+"_output.txt", drawnCard, player, true);
 
@@ -86,8 +89,10 @@ public class main  {
 
                         int emptySlot = discardCard.getHandNo();
                         player.removeCardfromHand(emptySlot);
-                        player.addCardtoHand(drawnCard, emptySlot);
-                        discardDeck.addCard(discardCard);
+                        player.addCardtoHand(drawnCard, emptySlot); //
+                        discardCard.setDeckNo(discardDeck.getID());
+                        discardCard.setHandNo(-1);
+                        discardDeck.addCard(discardCard); //add to deck
 
                         Thread.sleep(200);
                     }
@@ -232,6 +237,7 @@ public class main  {
             }
             sb.append(player.printHand(player.getID()) + "\n");
             writer.write(sb.toString());
+            writer.close();
             
         } catch (Exception e) {
             System.out.println("An error occurred while writing to the file: " + fileName);
