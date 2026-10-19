@@ -13,7 +13,8 @@ public class main  {
     public static void main(String args[]) throws InterruptedException, IOException {
         CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
-
+        FileWriter packClear = new FileWriter("pack.txt", false);
+        packClear.close();
         
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
@@ -26,7 +27,7 @@ public class main  {
         System.out.println("Please enter the name of the pack file:");
 
         String packFile = deckName.nextLine();
-        System.out.println(packFile);
+        
 
         Player[] gamePlayers = new Player[number];
         CardDeck[] gameDecks = new CardDeck[number];
@@ -144,6 +145,7 @@ public class main  {
         File deck4File = new File("Deck4_output.txt");
         
         FileWriter Swriter = new FileWriter(packFile, true);
+        
                 
         switch (numberOfPlayers) {
             case 2:
