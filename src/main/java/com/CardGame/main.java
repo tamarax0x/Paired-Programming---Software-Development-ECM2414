@@ -14,14 +14,7 @@ public class main  {
         CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
 
-        try {
-            FileWriter p1Writer = new FileWriter("player1_output.txt", true);
-            FileWriter p2Writer = new FileWriter("player2_output.txt", true);
-            FileWriter p3Writer = new FileWriter("player3_output.txt", true);
-            FileWriter p4Writer = new FileWriter("player4_output.txt", true);
-        } catch (IOException e) {
-            System.out.println("Did not create file writers.");
-        }
+        
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
         System.out.println("How many players would you like?");
@@ -96,11 +89,14 @@ public class main  {
 
                         Thread.sleep(200);
                     }
+                    
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }});
-
+                
+                deckToFile("Deck"+(gameDecks[i].getID()+1)+"_output.txt", gameDecks[i]);
+                
                 playerThreads[j].start();
         }
 
@@ -258,4 +254,15 @@ public class main  {
             e.printStackTrace();
         }
     }
+    public static void deckToFile(String fileName, CardDeck deck) {
+        try {
+            FileWriter writer = new FileWriter(fileName, false);
+            writer.write(deck.printDeck());
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred while writing to the file: " + fileName);
+            e.printStackTrace();
+        }
+    }
+    
 }

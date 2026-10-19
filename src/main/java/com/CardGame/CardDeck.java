@@ -29,5 +29,16 @@ public class CardDeck {
     public void shuffle() {
         Collections.shuffle(this.Cards);
     }
+
+    public String printDeck() {
+        int[] list = new int[4];
+        int DeckNo = deckID + 1;
+        for (int i = 0; i < 4; i++) {
+            list[i] = this.Cards.get(i).getValue();
+
+        }
+        return ("Deck " + DeckNo + "'s Cards: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3]);
+    }
+    
     
 }
