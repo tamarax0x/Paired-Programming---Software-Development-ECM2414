@@ -6,17 +6,22 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.FileWriter;
 import java.io.File;
+import java.io.IOException;
 
 public class main  {
     
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException, IOException {
         CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
 
-        FileWriter p1Writer = new FileWriter("player1_output.txt", true);
-        FileWriter p2Writer = new FileWriter("player2_output.txt", true);
-        FileWriter p3Writer = new FileWriter("player3_output.txt", true);
-        FileWriter p4Writer = new FileWriter("player4_output.txt", true);
+        try {
+            FileWriter p1Writer = new FileWriter("player1_output.txt", true);
+            FileWriter p2Writer = new FileWriter("player2_output.txt", true);
+            FileWriter p3Writer = new FileWriter("player3_output.txt", true);
+            FileWriter p4Writer = new FileWriter("player4_output.txt", true);
+        } catch (IOException e) {
+            System.out.println("Did not create file writers.");
+        }
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
         System.out.println("How many players would you like?");
@@ -74,10 +79,10 @@ public class main  {
 
                         Card drawnCard = drawDeck.drawCard();
                         
-                        writeToFile("player"+(_output.txt", sb.toString(), drawnCard, player, true);
+                        writeToFile("player"+(player.getID()+1)+"_output.txt", drawnCard, player, true);
 
                         Card discardCard = player.findTargetedCard();
-                        writeToFile("player"+(player.getID()+1).toString()+"_output.txt", discardCard, player, false);
+                        writeToFile("player"+(player.getID()+1)+"_output.txt", discardCard, player, false);
 
                         int emptySlot = discardCard.getHandNo();
                         player.removeCardfromHand(emptySlot);
@@ -209,22 +214,23 @@ public class main  {
                 gameDecks[i].addCard(sharedDeck.drawCard());
             }
 
-            gamePlayers[i].printHand(gamePlayers[i].getID());
+            String text = gamePlayers[i].printHand(gamePlayers[i].getID());
+            System.out.println(text);
         }
     }
-    public void writeToFile(String fileName, Card card,Player player,Boolean Drawn) {
+    public static void writeToFile(String fileName, Card card,Player player,Boolean Drawn) {
         try {
             
             FileWriter writer = new FileWriter(fileName, true);
             
             StringBuilder sb = new StringBuilder();
             if(Drawn){
-                sb.append("Player " + (player.getID() + 1).toString() + " draws a " + card.getValue().toString() + " from deck " + card.getDeckNo().toString() + "\n");
+                sb.append("Player " + (player.getID() + 1) + " draws a " + card.getValue() + " from deck " + card.getDeckNo() + "\n");
             }
             else{
-                sb.append("Player " + (player.getID() + 1).toString() + " discards a " + card.getValue().toString() + " to deck " + card.getDeckNo().toString() + "\n");
+                sb.append("Player " + (player.getID() + 1) + " discards a " + card.getValue() + " to deck " + card.getDeckNo() + "\n");
             }
-            sb.append("Player " + (player.getID() + 1).toString() + "'s Hand: " + player.hand[0].getValue().toString() + ", " + player.hand[1].getValue().toString() + ", " + player.hand[2].getValue().toString() + ", " + player.hand[3].getValue().toString() + "\n");
+            sb.append(player.printHand(player.getID()) + "\n");
             writer.write(sb.toString());
             
         } catch (Exception e) {

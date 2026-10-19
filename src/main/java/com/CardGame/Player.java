@@ -13,14 +13,14 @@ public class Player {
         return this.playerID;
     }
 
-    public void printHand(int playerID) {
+    public String printHand(int playerID) {
         int[] list = new int[4];
         int playerNo = playerID + 1;
 
         for (int i = 0; i < 4; i++) {
             list[i] = this.hand[i].getValue();
         }
-        System.out.println("Player " + playerNo + "'s Hand: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3]);
+        return ("Player " + playerNo + "'s Hand: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3]);
     }
 
     public void addCardtoHand(Card card, int i) {
