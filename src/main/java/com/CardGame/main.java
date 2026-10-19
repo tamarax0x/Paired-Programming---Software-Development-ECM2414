@@ -48,8 +48,6 @@ public class main  {
 
         for (int j = 0; j < number; j++) {
             Player player = gamePlayers[j];
-            
-            
 
             int threadNumber = j + 1;
 
@@ -64,13 +62,14 @@ public class main  {
                 discardDeck = gameDecks[ID + 1];
             }
 
+            initialHandToFile("player"+(player.getID()+1)+"_output.txt", player);
+
             playerThreads[j] = new Thread(() -> {
                 try {
                     startSignal.await();
 
                     while (running.get()) {
                         
-                        initialHandToFile("player"+(player.getID()+1)+"_output.txt", player);
                         if (player.winningHand()) {
                             running.set(false);
                             
@@ -78,19 +77,21 @@ public class main  {
                         }
 
                         Card drawnCard = drawDeck.drawCard();
+                        writeToFile("player"+(player.getID()+1)+"_output.txt", drawnCard, player, true);
                         drawnCard.setDeckNo(-1);
                         drawnCard.setHandNo(player.getID());
                         
-                        writeToFile("player"+(player.getID()+1)+"_output.txt", drawnCard, player, true);
-
+                        
                         Card discardCard = player.findTargetedCard();
-                        writeToFile("player"+(player.getID()+1)+"_output.txt", discardCard, player, false);
+                        
 
                         int emptySlot = discardCard.getHandNo();
                         player.removeCardfromHand(emptySlot);
                         player.addCardtoHand(drawnCard, emptySlot); //
                         discardCard.setDeckNo(discardDeck.getID());
                         discardCard.setHandNo(-1);
+
+                        writeToFile("player"+(player.getID()+1)+"_output.txt", discardCard, player, false);
                         discardDeck.addCard(discardCard); //add to deck
 
                         Thread.sleep(200);
@@ -107,8 +108,10 @@ public class main  {
             try {
                 // trigger start and stop
                 startSignal.countDown();
-                Thread.sleep(2000);
-                running.set(false);
+                
+                while (running.get()) {
+                    Thread.sleep(2000);
+                }
 
                 for (Thread playerThread : playerThreads) {
                     playerThread.interrupt();
@@ -229,10 +232,10 @@ public class main  {
             
             StringBuilder sb = new StringBuilder();
             if(Drawn){
-                sb.append("Player " + (player.getID() + 1) + " draws a " + card.getValue() + " from deck " + card.getDeckNo() + "\n");
+                sb.append("Player " + (player.getID() + 1) + " draws a " + card.getValue() + " from deck " + (card.getDeckNo() + 1) + "\n");
             }
             else{
-                sb.append("Player " + (player.getID() + 1) + " discards a " + card.getValue() + " to deck " + card.getDeckNo() + "\n");
+                sb.append("Player " + (player.getID() + 1) + " discards a " + card.getValue() + " to deck " + (card.getDeckNo() + 1) + "\n");
             }
             sb.append(player.printHand(player.getID()) + "\n");
             writer.write(sb.toString());
@@ -245,10 +248,11 @@ public class main  {
     }
     public static void initialHandToFile(String fileName, Player player) {
         try {
-            FileWriter writer = new FileWriter(fileName, true);
+            FileWriter writer = new FileWriter(fileName, false);
             StringBuilder sb = new StringBuilder();
-            sb.append("Player " + (player.getID() + 1) + "'s initial hand: " + player.printHand() + "\n");
+            sb.append("Player " + (player.getID() + 1) + "'s initial hand: " + player.printHand(player.getID()) + "\n");
             writer.write(sb.toString());
+            writer.close();
         } catch (Exception e) {
             System.out.println("An error occurred while writing to the file: " + fileName);
             e.printStackTrace();

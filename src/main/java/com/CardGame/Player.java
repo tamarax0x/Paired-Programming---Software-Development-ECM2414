@@ -76,7 +76,7 @@ public class Player {
     }
     
     public boolean targetedDenomination(Card card){
-        if(card.getValue() == playerID){
+        if(card.getValue() == playerID + 1){
             return true;
         }
         return false;
