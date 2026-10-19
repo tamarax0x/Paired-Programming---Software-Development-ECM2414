@@ -13,8 +13,8 @@ public class main  {
     public static void main(String args[]) throws InterruptedException, IOException {
         CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
-        FileWriter packClear = new FileWriter("pack.txt", false);
-        packClear.close();
+        
+        
         
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
@@ -27,7 +27,8 @@ public class main  {
         System.out.println("Please enter the name of the pack file:");
 
         String packFile = deckName.nextLine();
-        
+        FileWriter packClear = new FileWriter(packFile, false);
+        packClear.close();
 
         Player[] gamePlayers = new Player[number];
         CardDeck[] gameDecks = new CardDeck[number];
@@ -71,6 +72,7 @@ public class main  {
                     while (running.get()) {
                         
                         if (player.winningHand()) {
+                            winnerToFile(gamePlayers, player.getID());
                             running.set(false);
                             
                             break;          
@@ -284,6 +286,34 @@ public class main  {
             FileWriter writer = new FileWriter(fileName, false);
             writer.write(deck.printDeck());
             writer.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred while writing to the file: " + fileName);
+            e.printStackTrace();
+        }
+    }
+    public static void winnerToFile( Player[] players,int winnerId) {
+        try {
+            for (Player player : players) {
+                if(player.getID() == winnerId){
+                    FileWriter writer = new FileWriter("player" + (player.getID() + 1) + ".txt", true);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Player " + (player.getID() + 1) + " wins\n");
+                    sb.append("Player " + (player.getID() + 1) + " exits\n");
+                    sb.append("Player " + (player.getID() + 1) + "'s final hand: " + player.printHand(player.getID()) + "\n");
+                    writer.write(sb.toString());
+                    writer.close();
+                }
+                else{
+                    FileWriter writer = new FileWriter("player" + (player.getID() + 1) + ".txt", true);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Player" + (winnerId + 1) + " has informed player " + (player.getID() + 1) + " that player " + (winnerId + 1) + " has won\n");
+                    sb.append("Player " + (player.getID() + 1) + " exits\n");
+                    sb.append("Player " + (player.getID() + 1) + "'s final hand: " + player.printHand(player.getID()) + "\n");
+                    writer.write(sb.toString());
+                    writer.close();
+                }
+            }
+            
         } catch (Exception e) {
             System.out.println("An error occurred while writing to the file: " + fileName);
             e.printStackTrace();
