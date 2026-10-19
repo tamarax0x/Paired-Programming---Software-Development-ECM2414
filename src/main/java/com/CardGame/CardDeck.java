@@ -39,6 +39,22 @@ public class CardDeck {
         }
         return ("Deck " + DeckNo + "'s Cards: " + list[0] + ", " + list[1] + ", " + list[2] + ", " + list[3]);
     }
+    public void readFromFile(String fileName) {
+        try {
+            File file = new File(fileName);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                int value = Integer.parseInt(line);
+                Card card = new Card(value, 0);
+                this.addCard(card);
+            }
+            scanner.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred while reading from the file: " + fileName);
+            e.printStackTrace();
+        }
+    }
     
     
 }

@@ -21,6 +21,9 @@ public class main  {
 
         int number = players.nextInt();  // Read user input
         System.out.println("There are " + number + " players.");
+        System.out.println("Please enter the name of the pack file");
+        String packFile = players.next();
+
 
         Player[] gamePlayers = new Player[number];
         CardDeck[] gameDecks = new CardDeck[number];
@@ -34,7 +37,7 @@ public class main  {
             gameDecks[i] = deck;
         }
 
-        initialiseGame(number, sharedDeck, gamePlayers,gameDecks);
+        initialiseGame(number, sharedDeck, gamePlayers,gameDecks,packFile);
 
         Thread[] playerThreads = new Thread[number];
         AtomicBoolean running = new AtomicBoolean(true);
@@ -95,7 +98,7 @@ public class main  {
                     Thread.currentThread().interrupt();
                 }});
                 
-                deckToFile("Deck"+(gameDecks[i].getID()+1)+"_output.txt", gameDecks[i]);
+                deckToFile("Deck"+(gameDecks[j].getID()+1)+"_output.txt", gameDecks[j]);
                 
                 playerThreads[j].start();
         }
@@ -126,7 +129,7 @@ public class main  {
 
     }
 
-    public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
+    public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks,string packFile)throws IOException {    
         Random rand = new Random();
         File player1File = new File("player1_output.txt");
         File player2File = new File("player2_output.txt");
@@ -136,16 +139,21 @@ public class main  {
         File deck2File = new File("Deck2_output.txt");
         File deck3File = new File("Deck3_output.txt");
         File deck4File = new File("Deck4_output.txt");
+        
+        FileWriter Swriter = new FileWriter(packFile, true);
                 
         switch (numberOfPlayers) {
             case 2:
                 for (int i = 0; i < 4; i++) {
-                    sharedDeck.addCard(new Card(1, 0));
-                    sharedDeck.addCard(new Card(2, 0));
+                    //sharedDeck.addCard(new Card(1, 0));
+                   // sharedDeck.addCard(new Card(2, 0));
+                    Swriter.write("1\n");
+                    Swriter.write("2\n");
                 }
                 for (int i = 0; i < 8; i++) {
                     int randomNum = rand.nextInt(18) + 3;
-                    sharedDeck.addCard(new Card(randomNum, 0));
+                    //sharedDeck.addCard(new Card(randomNum, 0));
+                    Swriter.write(randomNum + "\n");
                 }
                 try {
                     player1File.createNewFile();
@@ -160,15 +168,20 @@ public class main  {
                 break;
             case 3:
                 for (int i = 0; i < 4; i++) {
-                    sharedDeck.addCard(new Card(1, 0));
-                    sharedDeck.addCard(new Card(2, 0));
-                    sharedDeck.addCard(new Card(3, 0));
+                    //sharedDeck.addCard(new Card(1, 0));
+                    //sharedDeck.addCard(new Card(2, 0));
+                    //sharedDeck.addCard(new Card(3, 0));
+                    Swriter.write("1\n");
+                    Swriter.write("2\n");
+                    Swriter.write("3\n");
                 }
+                
                 for (int i = 0; i < 12; i++) {
                     int randomNum = rand.nextInt(18) + 4;
-                    sharedDeck.addCard(new Card(randomNum, 0));
+                    //sharedDeck.addCard(new Card(randomNum, 0));
+                    Swriter.write(randomNum + "\n");
                 }
-                try {
+                try{
                     player1File.createNewFile();
                     player2File.createNewFile();
                     player3File.createNewFile();
@@ -184,14 +197,19 @@ public class main  {
                 break;
             case 4:
                 for (int i = 0; i < 4; i++) {
-                    sharedDeck.addCard(new Card(1, 0));
-                    sharedDeck.addCard(new Card(2, 0));
-                    sharedDeck.addCard(new Card(3, 0));
-                    sharedDeck.addCard(new Card(4, 0));
+                    //sharedDeck.addCard(new Card(1, 0));
+                    //sharedDeck.addCard(new Card(2, 0));
+                    //sharedDeck.addCard(new Card(3, 0));
+                    //sharedDeck.addCard(new Card(4, 0));
+                    Swriter.write("1\n");
+                    Swriter.write("2\n");
+                    Swriter.write("3\n");
+                    Swriter.write("4\n");
                 }
                 for (int i = 0; i < 16; i++) {
                     int randomNum = rand.nextInt(18) + 5;
-                    sharedDeck.addCard(new Card(randomNum, 0));
+                    //sharedDeck.addCard(new Card(randomNum, 0));
+                    Swriter.write(randomNum + "\n");
                 }
                 try {
                     player1File.createNewFile();
@@ -210,6 +228,8 @@ public class main  {
             default:
                 System.out.println("Invalid number of players");
         }
+        Swriter.close();
+        sharedDeck.readFromFile(packFile);
         sharedDeck.shuffle();
         for (int i = 0; i < numberOfPlayers; i++) {
             for (int j = 0; j < 4; j++) {
