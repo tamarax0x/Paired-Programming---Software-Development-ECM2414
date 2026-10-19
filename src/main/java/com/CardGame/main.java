@@ -4,12 +4,19 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.FileWriter;
+import java.io.File;
 
 public class main  {
     
     public static void main(String args[]) throws InterruptedException {
         CountDownLatch startSignal = new CountDownLatch(1);
         CardDeck sharedDeck = new CardDeck(0);
+
+        FileWriter p1Writer = new FileWriter("player1_output.txt", true);
+        FileWriter p2Writer = new FileWriter("player2_output.txt", true);
+        FileWriter p3Writer = new FileWriter("player3_output.txt", true);
+        FileWriter p4Writer = new FileWriter("player4_output.txt", true);
 
         Scanner players = new Scanner(System.in);  // Create a Scanner object
         System.out.println("How many players would you like?");
@@ -36,11 +43,16 @@ public class main  {
 
         for (int j = 0; j < number; j++) {
             Player player = gamePlayers[j];
+            
+            
+
             int threadNumber = j + 1;
 
             int ID = player.getID();
+
             CardDeck drawDeck = gameDecks[ID];
             CardDeck discardDeck;
+
             if (ID + 1 >= number) {
                 discardDeck = gameDecks[0];
             } else {
@@ -56,11 +68,17 @@ public class main  {
 
                         if (player.winningHand()) {
                             running.set(false);
+
                             break;          
                         }
 
                         Card drawnCard = drawDeck.drawCard();
+                        
+                        writeToFile("player"+(_output.txt", sb.toString(), drawnCard, player, true);
+
                         Card discardCard = player.findTargetedCard();
+                        writeToFile("player"+(player.getID()+1).toString()+"_output.txt", discardCard, player, false);
+
                         int emptySlot = discardCard.getHandNo();
                         player.removeCardfromHand(emptySlot);
                         player.addCardtoHand(drawnCard, emptySlot);
@@ -74,7 +92,7 @@ public class main  {
                 }});
 
                 playerThreads[j].start();
-        };
+        }
 
         Thread controller = new Thread(() -> {
             try {
@@ -102,6 +120,15 @@ public class main  {
 
     public static void initialiseGame(int numberOfPlayers, CardDeck sharedDeck, Player[] gamePlayers, CardDeck[] gameDecks){    
         Random rand = new Random();
+        File player1File = new File("player1_output.txt");
+        File player2File = new File("player2_output.txt");
+        File player3File = new File("player3_output.txt");
+        File player4File = new File("player4_output.txt");
+        File deck1File = new File("Deck1_output.txt");
+        File deck2File = new File("Deck2_output.txt");
+        File deck3File = new File("Deck3_output.txt");
+        File deck4File = new File("Deck4_output.txt");
+                
         switch (numberOfPlayers) {
             case 2:
                 for (int i = 0; i < 4; i++) {
@@ -111,6 +138,15 @@ public class main  {
                 for (int i = 0; i < 8; i++) {
                     int randomNum = rand.nextInt(18) + 3;
                     sharedDeck.addCard(new Card(randomNum, 0));
+                }
+                try {
+                    player1File.createNewFile();
+                    player2File.createNewFile();
+                    deck1File.createNewFile();
+                    deck2File.createNewFile();
+                } catch (Exception e) {
+                    System.out.println("An error occurred while creating the files.");
+                    e.printStackTrace();
                 }
                 
                 break;
@@ -124,6 +160,19 @@ public class main  {
                     int randomNum = rand.nextInt(18) + 4;
                     sharedDeck.addCard(new Card(randomNum, 0));
                 }
+                try {
+                    player1File.createNewFile();
+                    player2File.createNewFile();
+                    player3File.createNewFile();
+                    deck1File.createNewFile();
+                    deck2File.createNewFile();
+                    deck3File.createNewFile();
+                } catch (Exception e) {
+                    System.out.println("An error occurred while creating the files.");
+                    e.printStackTrace();
+                    
+                }
+                
                 break;
             case 4:
                 for (int i = 0; i < 4; i++) {
@@ -135,6 +184,19 @@ public class main  {
                 for (int i = 0; i < 16; i++) {
                     int randomNum = rand.nextInt(18) + 5;
                     sharedDeck.addCard(new Card(randomNum, 0));
+                }
+                try {
+                    player1File.createNewFile();
+                    player2File.createNewFile();
+                    player3File.createNewFile();
+                    player4File.createNewFile();
+                    deck1File.createNewFile();
+                    deck2File.createNewFile();
+                    deck3File.createNewFile();
+                    deck4File.createNewFile();
+                } catch (Exception e) {
+                    System.out.println("An error occurred while creating the files.");
+                    e.printStackTrace();
                 }
                 break;
             default:
@@ -148,6 +210,26 @@ public class main  {
             }
 
             gamePlayers[i].printHand(gamePlayers[i].getID());
+        }
+    }
+    public void writeToFile(String fileName, Card card,Player player,Boolean Drawn) {
+        try {
+            
+            FileWriter writer = new FileWriter(fileName, true);
+            
+            StringBuilder sb = new StringBuilder();
+            if(Drawn){
+                sb.append("Player " + (player.getID() + 1).toString() + " draws a " + card.getValue().toString() + " from deck " + card.getDeckNo().toString() + "\n");
+            }
+            else{
+                sb.append("Player " + (player.getID() + 1).toString() + " discards a " + card.getValue().toString() + " to deck " + card.getDeckNo().toString() + "\n");
+            }
+            sb.append("Player " + (player.getID() + 1).toString() + "'s Hand: " + player.hand[0].getValue().toString() + ", " + player.hand[1].getValue().toString() + ", " + player.hand[2].getValue().toString() + ", " + player.hand[3].getValue().toString() + "\n");
+            writer.write(sb.toString());
+            
+        } catch (Exception e) {
+            System.out.println("An error occurred while writing to the file: " + fileName);
+            e.printStackTrace();
         }
     }
 }
